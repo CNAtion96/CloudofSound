@@ -14,31 +14,29 @@ $('#artist').submit(function(e){
             console.log(responce);
             responce.forEach(function(song){
                 var sId = song.id;
-                songURL = 'http://api.soundcloud.com/tracks/'+ sId +'/stream?client_id=03e4633e2d85874a921380e47cac705d';
                 if(song.artwork_url === null){
                      $('#artistOutput').append(`<div class="col-md-3 song">
                             <div class="songImage" style="background-image: url(not-found.jpg);">
-                                <div class="play"><img src="arrow.svg"></div>
+                                <div class="play" data-id="${sId}"><img src="arrow.svg"></div>
                             </div>
                             <p>${song.title}<p>
                         </div>`);
                 } else {
                     $('#artistOutput').append(`<div class="col-md-3 song">
-                            <div class="songImage" style="background-image: url(${song.artwork_url})">
-                                <div class="play"><img src="arrow.svg"></div>
+                            <div class="songImage"  style="background-image: url(${song.artwork_url})">
+                                <div class="play" data-id="${sId}"><img src="arrow.svg"></div>
                             </div>
                             <p>${song.title}<p>
                         </div>`);
                 }
-                return songURL;
              })
-            
          }
     });
 })
 
 $('body').on('click','.play' ,function(){
-    console.log(songURL);
-    var id = $(this).data('id');
-    $('#audio').attr('src', songURL);
+    let id = $(this).data('id');
+    console.log(id);
+    let urlSource = `http://api.soundcloud.com/tracks/${id}/stream?client_id=03e4633e2d85874a921380e47cac705d`;
+    $('#audio').attr('src', urlSource);
 })
